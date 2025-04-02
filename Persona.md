@@ -1,8 +1,8 @@
-# BMLD-LN-App-Entwicklung
+# Persona
 
-# Beschreibung der Person
-    **Beruf:** BMLD Studentin
-    **Alter:** 24 Jahre
+## Beschreibung der Person
+    __Beruf:__ BMLD Studentin
+    __Alter:__ 24 Jahre
 
 
 # Lieblings Apps
