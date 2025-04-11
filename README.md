@@ -8,5 +8,5 @@ Nutzer sollen imstande sein, ihren Lernprozess zu verfolgen, sich laufend zu ver
 
 Emails:
 wedermic@students.zhaw.ch,
-cosslea@students.zhaw.ch,
+cossllea@students.zhaw.ch,
 pianelis@students.zhaw.ch
