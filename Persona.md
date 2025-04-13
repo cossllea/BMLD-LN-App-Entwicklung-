@@ -10,11 +10,11 @@
 ### Lieblings Apps und Wieso 
 - Studysmarter: macht die Erstellung von Karteikarten einfacher und ermöglicht einfaches Teilen mit anderen
 - Quizduell: lustiges Quiz-Spiel mit verschiedenen Kategorien mit welchen man neue Sachen lernt und gegen andere spielen kann
-- Duolingo: Sprachen lernen auf spielerische Art, durch Streaks, Punkte und Ranglisten ist es einfacher konsequent zu bleiben und jeden Tag mindestens ein Lesson zu machen
+- Duolingo: Sprachen lernen auf spielerische Art, durch Streaks, Punkte und Ranglisten ist es einfacher konsequent zu bleiben und jeden Tag mindestens eine Lektion zu machen
 
 ### Lernstil 
 Lernen durch repetition mittels Übungsaufgaben, durch Chatgpt generierte Prüfungen und Karteikarten. 
-Lernt lieber über digitale Medien da sie chaotisch ist und oft gedruckte Medien verliert oder vermischt sowie eine umweltbewusstenlebenstil führt
+Lernt, da sie chaotisch ist und oft gedruckte Medien verliert bzw. vermischt lieber digital. Dies entspricht auch ihrem umweltbewussten Lebensstil.
 
 ### Problem
 Auswendig lernen findet sie schnell langweilig also muss es möglichst spielierisch gestaltet werden damit es Spass macht und weniger als Aufgabe erscheint.
@@ -40,7 +40,7 @@ Mit dem Öv zur Fachhochschule fahren ca 1h. pro Weg dabei Musik hören und oft 
 - Übernutzung von zeitfressenden Apps wie z.B. verschiedene Soziale Medien mit wenig relevantem Lerneffekt.
 
 ### Vorlieben und Abneigungen in Lernapps
-- Einfach und übersichtlich mit klarem Fortschritt Tracker --> Benutzendenfreundlich
+- Einfach und übersichtlich mit klarem Fortschritt Tracker --> Benutzerfreundlich
 - Klare Unterteilung in Katgorien damit man eine Auswahl hat zwischen leichteren und schwereren Aufgaben
 - Verschiedene Schwierigskeitsstufen
 - Belohnungssystem für gelöste Aufgaben
