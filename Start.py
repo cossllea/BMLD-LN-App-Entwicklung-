@@ -1,17 +1,17 @@
 import streamlit as st
 import pandas as pd
 
-st.title("Meine erste Streamlit App")
+st.title("Lernapp")
 
 # !! WICHTIG: Eure Emails müssen in der App erscheinen!!
 
 # Streamlit über den Text unten direkt in die App - cool!
 """
+In dieser Lernapp werden 10 Single-Choice Fragen zum Thema Parasitologie aus dem Modul Medizinische Mikrobiologie 2 in Form eines Quizzes gestellt.
+
 Diese App wurde von folgenden Personen entwickelt:
-- Anna Müller (anmu@zhaw.ch)
-- Peter Meier (peme@zhaw.ch)
+- Lisa Pianezzi (pianelis@students.zhaw.ch)
+- Michelle Weder (wedermic@students.zhaw.ch)
+- Leah Cosslett (cossllea@students.zhaw.ch)
 
-Diese App ist das leere Gerüst für die App-Entwicklung im Modul Informatik 2 (BMLD/ZHAW)
-
-Autor: Samuel Wehrli (wehs@zhaw.ch)
 """
