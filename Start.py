@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import io
 from utils.data_manager import DataManager
 
 data_manager = DataManager(fs_protocol= "webdav", fs_root_folder="Quiz_LN_Informatik")
@@ -7,7 +8,6 @@ data_manager = DataManager(fs_protocol= "webdav", fs_root_folder="Quiz_LN_Inform
 data_manager.load_app_data(
     session_state_key= "Fragen_Parasitologie_df",
     file_name = "parasitologie_fragen.csv")
-
 
 
 st.title("Lernapp")
@@ -24,6 +24,4 @@ Diese App wurde von folgenden Personen entwickelt:
 - Leah Cosslett (cossllea@students.zhaw.ch)
 
 """
-
-st.dataframe(st.session_state["Fragen_Parasitologie_df"], use_container_width=True)
-st.write("Die Fragen sind in der Datei `parasitologie_fragen.csv` gespeichert.")
+st.write("Navigiere über die Sidebar zu den verschiedenen Seiten der App.")
