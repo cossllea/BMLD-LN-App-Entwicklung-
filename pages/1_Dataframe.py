@@ -1,7 +1,6 @@
 import streamlit as st
 
 st.title("Dataframe")
-
 st.write("Hier sind die ersten 10 Fragen aus der Datei `parasitologie_fragen.csv`:")
 
 # Zeige die Tabelle mit den ersten 10 Zeilen an
