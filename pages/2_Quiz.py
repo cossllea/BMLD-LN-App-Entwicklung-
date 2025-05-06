@@ -14,22 +14,33 @@ data_manager.load_app_data(
 st.title("10 zufällige Fragen")
 
 
+
 # Überprüfen, ob der DataFrame existiert
 if "Fragen_Parasitologie_df" in st.session_state:
-    # Generiere die zufälligen Fragen nur einmal und speichere sie im Session State
-    if "random_questions" not in st.session_state:
+    # DataFrame aus dem Session State abrufen
+    df = st.session_state["Fragen_Parasitologie_df"]
+
+     # Zeige die Anzahl der Zeilen im DataFrame
+    st.write("Anzahl der Zeilen im DataFrame:", len(df))
+
+    # Quiz Button:
+    if st.button("Quiz starten"):
+         # Entferne Duplikate aus dem DataFrame
+        df = df.drop_duplicates(subset="Frage")
+
         # Wähle 10 zufällige Fragen ohne Wiederholungen
-        st.session_state["random_questions"] = st.session_state["Fragen_Parasitologie_df"].sample(n=10, replace=False)
+        num_questions = min(10, len(df))  # Wähle maximal 10 Fragen oder die Anzahl der verfügbaren Fragen
+        st.session_state["random_questions"] = df.sample(n=num_questions, replace=False)
 
     # Fragen und Antwortmöglichkeiten anzeigen
-    random_questions = st.session_state["random_questions"]
-    for i, row in enumerate(random_questions.iterrows(), start=1):
-        st.subheader(f"Frage {i}: {row[1]['Frage']}")
-        st.radio(
-            "Wähle eine Antwort:",
-            options=[row[1]['A'], row[1]['B'], row[1]["C"], row[1]['D']],
-            key=f"question_{i}"
-        )
+    if "random_questions" in st.session_state:
+        random_questions = st.session_state["random_questions"]
+        for i, row in enumerate(random_questions.iterrows(), start=1):
+            st.subheader(f"Frage {i}: {row[1]['Frage']}")
+            st.radio(
+                "Wähle eine Antwort:",
+                options=[row[1]['A'], row[1]['B'], row[1]["C"], row[1]['D']],
+                key=f"question_{i}"
+            )
 else:
     st.error("Der DataFrame konnte nicht geladen werden. Bitte überprüfe die Datenquelle.")
-
