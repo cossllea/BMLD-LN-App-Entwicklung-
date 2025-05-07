@@ -29,7 +29,7 @@ if "Fragen_Parasitologie_df" in st.session_state:
     # Quiz Button:
     if st.button("Quiz starten"):
          # Entferne Duplikate aus dem DataFrame
-        df = df.drop_duplicates(subset="Frage")
+        df = df.drop_duplicates(subset="question")
 
         # Wähle 10 zufällige Fragen ohne Wiederholungen
         num_questions = min(10, len(df))  # Wähle maximal 10 Fragen oder die Anzahl der verfügbaren Fragen
@@ -43,17 +43,17 @@ if "Fragen_Parasitologie_df" in st.session_state:
     
 
         for i, row in enumerate(random_questions.iterrows(), start=1):
-            st.subheader(f"Frage {i}: {row[1]['Frage']}")
+            st.subheader(f"question {i}: {row[1]['question']}")
             user_answer = st.radio(
                 "Wähle eine Antwort:",
-                options=[row[1]['A'], row[1]['B'], row[1]["C"], row[1]['D']],
+                options=[row[1]['answer_a'], row[1]['answer_b'], row[1]["answer_c"], row[1]['answer_d']],
                 key=f"question_{i}"
             )
 
             # Speichere die Benutzerantwort
             st.session_state["user_answers"] [i] = {
-                "question": row[1]['Frage'],
-                "correct_answer": row[1]['RichtigeAntwort'],
+                "question": row[1]['question'],
+                "correct_answer": row[1]['correct_answer'],
                 "user_answer": user_answer
             }
 
