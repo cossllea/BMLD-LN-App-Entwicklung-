@@ -57,7 +57,7 @@ if "Fragen_Parasitologie_df" in st.session_state:
                 "user_answer": user_answer
             }
 
-        #Auswertun anzeigen
+        #Auswertung anzeigen
         if st.button("Auswertung anzeigen"):
             if "user_answers" in st.session_state:
                 correct_count = 0
