@@ -25,6 +25,7 @@
 ### V 5.0 + verschiedene Modi (2.5-3.5h) 
 - "low brain power" -> 10 Fragen (die ursprünglichen 10 randomisierte Single Choice Fragen) (30min)
 - "little more brain power"-> 20 Fragen (2-3h)
+- Bilder als Pfad im CSV-File hinterlegen (2h)
 
 ### V 6.0 + verschiedene Fächer/Themen (wenn noch Zeit sonst nach Abgabe) 
 - Seite mit unterschiedlichen Fächern/Themen zur Auswahl
