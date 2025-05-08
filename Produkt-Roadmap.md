@@ -12,10 +12,11 @@
 - Anzahl richtig beantwortete Fragen werden angezeigt (1h) 
 - Wenn zeitlich möglich -> welche Fragen richtig/falsch waren (2h)
 
-### V 3.0 + User Login & Datenspeicherung auf SwitchDrive (4-5h)
+### V 3.0 + User Login & Datenspeicherung auf SwitchDrive (5-6h)
 - Login/SignUp implementieren (1-2h) 
 - Ordner auf Switchdrive erstellen damit Userspezifische Daten gespeichert werden können (1h) 
 - Switchdrive und App verknüpfen (2h) 
+- Wenn zeitlich möglich -> Bider als URL hinterlegen (1h)
     
 ### V 4.0 + Statistik & Graphik (3-4h)
 - Seite mit Tabelle wo jeder User Überblick über seine vergangen Resultate hat (1h) 
@@ -25,7 +26,6 @@
 ### V 5.0 + verschiedene Modi (2.5-3.5h) 
 - "low brain power" -> 10 Fragen (die ursprünglichen 10 randomisierte Single Choice Fragen) (30min)
 - "little more brain power"-> 20 Fragen (2-3h)
-- Bilder als Pfad im CSV-File hinterlegen (2h)
 
 ### V 6.0 + verschiedene Fächer/Themen (wenn noch Zeit sonst nach Abgabe) 
 - Seite mit unterschiedlichen Fächern/Themen zur Auswahl
