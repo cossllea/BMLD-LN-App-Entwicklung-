@@ -26,7 +26,3 @@ Diese App wurde von folgenden Personen entwickelt:
 """
 st.write("Navigiere über die Sidebar zu den verschiedenen Seiten der App.")
 
-#### ACHTUNG: Wir müssen den Dataframe anpassen bevor der Code richtig funktioniert 
-    # Spalte #RichtigeAntwort muss die Ausgeschriebene Antwort enthalten nicht nur A, B, C oder D
-    # wir brauchen mehr Fragen 
-    # Alle Umlaute müssen ausgeschrieben werden
