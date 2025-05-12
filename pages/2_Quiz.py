@@ -3,7 +3,6 @@ import pandas as pd
 import io
 from utils.data_manager import DataManager
 
-#### ACHTUNG: Wir müssen den Dataframe anpassen -> Spalte mit Pfad zu Bildern oder URL einfügen
 
 data_manager = DataManager(fs_protocol= "webdav", fs_root_folder="Quiz_LN_Informatik")
 
@@ -28,6 +27,7 @@ if "Fragen_Parasitologie_df" in st.session_state:
          # Entferne Duplikate aus dem DataFrame
         df = df.drop_duplicates(subset="question")
 
+        
         # Wähle 10 zufällige Fragen ohne Wiederholungen
         num_questions = min(10, len(df))  # Wähle maximal 10 Fragen oder die Anzahl der verfügbaren Fragen
         st.session_state["random_questions"] = df.sample(n=num_questions, replace=False)
@@ -42,9 +42,26 @@ if "Fragen_Parasitologie_df" in st.session_state:
         for i, row in enumerate(random_questions.iterrows(), start=1):
             st.subheader(f"Frage {i}: {row[1]['question']}")
 
-             # Überprüfe, ob ein Bild vorhanden ist, und zeige es an
-            #if pd.notna(row[1].get('image')):  # Prüfe, ob die Spalte 'image' nicht leer ist
-                #st.image(row[1]['image'], caption=f"Bild für Frage {i}", use_column_width=True)
+            
+
+            # Überprüfe, ob ein Bild vorhanden ist, und zeige es an
+            if pd.notna(row[1].get('images')):  # Prüfe, ob die Spalte 'image' nicht leer ist
+                image_url = row[1]['images']  # WebDAV-URL aus der Spalte 'image'
+
+                # Teste den Pfad
+                st.write(f"Teste Bild-URL: {image_url}") 
+                try:
+                    import requests
+                    response = requests.head(image_url)
+                    if response.status_code == 200:
+                        st.success(f"Bild-URL ist gültig: {image_url}")
+                    else:
+                        st.error(f"Bild-URL ist ungültig: {image_url} (Status: {response.status_code})")
+                except Exception as e:
+                    st.error(f"Fehler beim Testen der Bild-URL: {e}")
+
+
+                st.image(image_url, caption=f"Bild für Frage {i}", use_container_width=True)
 
             user_answer = st.radio(
                 "Wähle eine Antwort:",
