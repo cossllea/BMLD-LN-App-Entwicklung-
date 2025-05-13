@@ -4,6 +4,7 @@ import io
 from datetime import datetime
 from utils.data_manager import DataManager
 from utils.login_manager import LoginManager
+import random
 
 LoginManager().go_to_login('Start.py') 
 
@@ -22,13 +23,16 @@ if "Fragen_Parasitologie_df" in st.session_state:
 
     # Quiz Button:
     if st.button("Quiz starten"):
-         # Entferne Duplikate aus dem DataFrame
-        df = df.drop_duplicates(subset="question")
+        # Entferne Duplikate und mische den DataFrame
+        question_list = df.drop_duplicates(subset="question").to_dict(orient="records")
 
         
+         # Mische die Liste der Fragen
+        random.shuffle(question_list)
+
         # Wähle 10 zufällige Fragen ohne Wiederholungen
-        num_questions = min(10, len(df))  # Wähle maximal 10 Fragen oder die Anzahl der verfügbaren Fragen
-        st.session_state["random_questions"] = df.sample(n=num_questions, replace=False)
+        num_questions = min(10, len(question_list))
+        st.session_state["random_questions"] = question_list[:num_questions]
         st.session_state["user_answers"] = {}  # Initialisiere die Benutzerantworten
 
 
@@ -37,39 +41,25 @@ if "Fragen_Parasitologie_df" in st.session_state:
         random_questions = st.session_state["random_questions"]
     
 
-        for i, row in enumerate(random_questions.iterrows(), start=1):
-            st.subheader(f"Frage {i}: {row[1]['question']}")
+        for i, question in enumerate(random_questions, start=1):
+            st.subheader(f"Frage {i}: {question['question']}")
 
             # Überprüfe, ob ein Bild vorhanden ist, und zeige es an
-            if pd.notna(row[1].get('images')):  # Prüfe, ob die Spalte 'image' nicht leer ist
-                image_url = row[1]['images']  # WebDAV-URL aus der Spalte 'image'
-
-                # Teste den Pfad
-                st.write(f"Teste Bild-URL: {image_url}") 
-                try:
-                    import requests
-                    response = requests.head(image_url)
-                    if response.status_code == 200:
-                        st.success(f"Bild-URL ist gültig: {image_url}")
-                    else:
-                        st.error(f"Bild-URL ist ungültig: {image_url} (Status: {response.status_code})")
-                except Exception as e:
-                    st.error(f"Fehler beim Testen der Bild-URL: {e}")
-
-
+            if pd.notna(question.get('images')):  # Prüfe, ob die Spalte 'image' nicht leer ist
+                image_url = question['images']  # WebDAV-URL aus der Spalte 'image'
                 st.image(image_url, caption=f"Bild für Frage {i}", use_container_width=True)
 
             user_answer = st.radio(
                 "Wähle eine Antwort:",
-                options=[row[1]['answer_a'], row[1]['answer_b'], row[1]["answer_c"], row[1]['answer_d']],
+                options=[question['answer_a'], question['answer_b'], question["answer_c"], question['answer_d']],
                 key=f"question_{i}"
             )
 
             # Speichere die Benutzerantwort
             if user_answer != "Bitte wählen":
                 st.session_state["user_answers"][i] = {
-                    "question": row[1]['question'],
-                    "correct_answer": row[1]['correct_answer'],
+                    "question": question['question'],
+                    "correct_answer": question['correct_answer'],
                     "user_answer": user_answer
                 }
 
@@ -130,6 +120,23 @@ if "Fragen_Parasitologie_df" in st.session_state:
                     st.success("Ergebnisse wurden gespeichert.")
                 except Exception as e:
                     st.error(f"Fehler beim Speichern der Ergebnisse: {e}")
+                
+                # Button zum Zurücksetzen des Quiz
+                if st.button("Retry Quiz"):
+                    # Lösche die relevanten Session-State-Keys
+                    if "random_questions" in st.session_state:
+                        del st.session_state["random_questions"]
+                    if "user_answers" in st.session_state:
+                        del st.session_state["user_answers"]
+                    
+                    # Starte das Quiz neu (wie beim "Quiz starten"-Button)
+                    question_list = df.drop_duplicates(subset="question").to_dict(orient="records")
+                    random.shuffle(question_list)
+                    num_questions = min(10, len(question_list))
+                    st.session_state["random_questions"] = question_list[:num_questions]
+                    st.session_state["user_answers"] = {}  # Initialisiere die Benutzerantworten
+
+                    st.success("Das Quiz wurde neu gestartet.")
 
 else:
     st.error("Der DataFrame konnte nicht geladen werden. Bitte überprüfe die Datenquelle.")
