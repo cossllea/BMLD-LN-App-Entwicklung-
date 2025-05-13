@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
 import io
+from datetime import datetime
 from utils.data_manager import DataManager
-
 from utils.login_manager import LoginManager
+
 LoginManager().go_to_login('Start.py') 
 
 data_manager = DataManager(fs_protocol= "webdav", fs_root_folder="Quiz_LN_Informatik")
@@ -14,19 +15,10 @@ data_manager.load_app_data(
 
 st.title("10 zufällige Fragen")
 
-data_df = st.session_state['data_df']
-if data_df.empty:
-    st.info('Keine Daten vorhanden.')
-    st.stop()
-
-
 # Überprüfen, ob der DataFrame existiert
 if "Fragen_Parasitologie_df" in st.session_state:
     # DataFrame aus dem Session State abrufen
     df = st.session_state["Fragen_Parasitologie_df"]
-
-     # Zeige die Anzahl der Zeilen im DataFrame
-    #st.write("Anzahl der Zeilen im DataFrame:", len(df))
 
     # Quiz Button:
     if st.button("Quiz starten"):
@@ -47,8 +39,6 @@ if "Fragen_Parasitologie_df" in st.session_state:
 
         for i, row in enumerate(random_questions.iterrows(), start=1):
             st.subheader(f"Frage {i}: {row[1]['question']}")
-
-            
 
             # Überprüfe, ob ein Bild vorhanden ist, und zeige es an
             if pd.notna(row[1].get('images')):  # Prüfe, ob die Spalte 'image' nicht leer ist
@@ -115,5 +105,31 @@ if "Fragen_Parasitologie_df" in st.session_state:
                             - **Deine Antwort:** `{question['user_answer']}`
                             - **Richtige Antwort:** `{question['correct_answer']}`
                         """)
+                 # Ergebnisse speichern
+                results = {
+                    "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "correct_count": correct_count,
+                    "incorrect_count": incorrect_count,
+                    "details": st.session_state["user_answers"]
+                }
+
+                try:
+                    # Initialisiere den Session State Key, falls nicht vorhanden
+                    if "user_results" not in st.session_state:
+                        st.session_state["user_results"] = []
+
+                    # Speichere die Ergebnisse in der Session State Liste
+                    st.session_state["user_results"].append(results)
+
+
+                    # Speichere die Ergebnisse mit DataManager
+                    DataManager().append_record(
+                        session_state_key="data_df",  # Session State Key für die Ergebnisse
+                        record_dict=results  # Die Ergebnisse als Dictionary
+                    )
+                    st.success("Ergebnisse wurden gespeichert.")
+                except Exception as e:
+                    st.error(f"Fehler beim Speichern der Ergebnisse: {e}")
+
 else:
     st.error("Der DataFrame konnte nicht geladen werden. Bitte überprüfe die Datenquelle.")
