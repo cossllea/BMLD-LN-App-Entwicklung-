@@ -1,8 +1,10 @@
+from utils.login_manager import LoginManager
+LoginManager().go_to_login('Start.py') 
+
 import streamlit as st
 import pandas as pd
 import io
 from utils.data_manager import DataManager
-
 
 data_manager = DataManager(fs_protocol= "webdav", fs_root_folder="Quiz_LN_Informatik")
 

@@ -3,6 +3,8 @@ import pandas as pd
 import io
 from utils.data_manager import DataManager
 
+from utils.login_manager import LoginManager
+LoginManager().go_to_login('Start.py') 
 
 data_manager = DataManager(fs_protocol= "webdav", fs_root_folder="Quiz_LN_Informatik")
 
@@ -12,6 +14,10 @@ data_manager.load_app_data(
 
 st.title("10 zufällige Fragen")
 
+data_df = st.session_state['data_df']
+if data_df.empty:
+    st.info('Keine Daten vorhanden.')
+    st.stop()
 
 
 # Überprüfen, ob der DataFrame existiert
