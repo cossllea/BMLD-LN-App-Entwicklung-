@@ -24,7 +24,8 @@ data_manager.load_user_data(
 st.title("Lernapp")
 
 name = st.session_state.get('name')
-st.markdown(f"✨ Hallo {name}! ✨")
+ 
+st.markdown(f"🦠  Hallo {name}! 🦠 ")
 
 # !! WICHTIG: Eure Emails müssen in der App erscheinen!!
 
@@ -39,4 +40,3 @@ Diese App wurde von folgenden Personen entwickelt:
 
 """
 st.write("Navigiere über die Sidebar zu den verschiedenen Seiten der App.")
-
