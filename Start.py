@@ -40,3 +40,4 @@ Diese App wurde von folgenden Personen entwickelt:
 
 """
 st.write("Navigiere über die Sidebar zu den verschiedenen Seiten der App.")
+
