@@ -16,6 +16,28 @@ data_manager.load_app_data(
 
 st.title("10 zufällige Fragen")
 
+def start_quiz(df):
+    """
+    Funktion zum Starten oder Zurücksetzen des Quiz.
+    Generiert 10 zufällige Fragen und initialisiert die Benutzerantworten.
+    """
+    # Lösche vorherige Fragen aus dem Session State
+    if "random_questions" in st.session_state:
+        del st.session_state["random_questions"]
+        st.write("Session State für Fragen wurde zurückgesetzt.")  # Debugging
+
+    # Lade den DataFrame neu und mische die Reihenfolge
+    df = df.sample(frac=1).reset_index(drop=True)
+
+    # Generiere neue 10 zufällige Fragen
+    question_list = df.drop_duplicates(subset="question").sample(
+        n=min(10, len(df)), random_state=None
+    ).to_dict(orient="records")
+
+    # Speichere die neuen Fragen und initialisiere die Benutzerantworten
+    st.session_state["random_questions"] = question_list
+    st.session_state["user_answers"] = {}  # Initialisiere die Benutzerantworten
+
 # Überprüfen, ob der DataFrame existiert
 if "Fragen_Parasitologie_df" in st.session_state:
     # DataFrame aus dem Session State abrufen
@@ -23,24 +45,12 @@ if "Fragen_Parasitologie_df" in st.session_state:
 
     # Quiz Button:
     if st.button("Quiz starten"):
-        # Entferne Duplikate und mische den DataFrame
-        question_list = df.drop_duplicates(subset="question").to_dict(orient="records")
-
-        
-         # Mische die Liste der Fragen
-        random.shuffle(question_list)
-
-        # Wähle 10 zufällige Fragen ohne Wiederholungen
-        num_questions = min(10, len(question_list))
-        st.session_state["random_questions"] = question_list[:num_questions]
-        st.session_state["user_answers"] = {}  # Initialisiere die Benutzerantworten
-
+        start_quiz(df)
 
     # Fragen und Antwortmöglichkeiten anzeigen
     if "random_questions" in st.session_state:
         random_questions = st.session_state["random_questions"]
     
-
         for i, question in enumerate(random_questions, start=1):
             st.subheader(f"Frage {i}: {question['question']}")
 
@@ -121,22 +131,7 @@ if "Fragen_Parasitologie_df" in st.session_state:
                 except Exception as e:
                     st.error(f"Fehler beim Speichern der Ergebnisse: {e}")
                 
-                # Button zum Zurücksetzen des Quiz
-                if st.button("Retry Quiz"):
-                    # Lösche die relevanten Session-State-Keys
-                    if "random_questions" in st.session_state:
-                        del st.session_state["random_questions"]
-                    if "user_answers" in st.session_state:
-                        del st.session_state["user_answers"]
-                    
-                    # Starte das Quiz neu (wie beim "Quiz starten"-Button)
-                    question_list = df.drop_duplicates(subset="question").to_dict(orient="records")
-                    random.shuffle(question_list)
-                    num_questions = min(10, len(question_list))
-                    st.session_state["random_questions"] = question_list[:num_questions]
-                    st.session_state["user_answers"] = {}  # Initialisiere die Benutzerantworten
 
-                    st.success("Das Quiz wurde neu gestartet.")
 
 else:
     st.error("Der DataFrame konnte nicht geladen werden. Bitte überprüfe die Datenquelle.")
