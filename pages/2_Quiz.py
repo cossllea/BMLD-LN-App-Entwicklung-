@@ -102,9 +102,9 @@ if "Fragen_Parasitologie_df" in st.session_state:
                     for question in incorrect_questions:
                         st.markdown(f"""
                         - **Frage:** {question['question']}
-                            - **Deine Antwort:** `{question['user_answer']}`
-                            - **Richtige Antwort:** `{question['correct_answer']}`
-                        """)
+                            - **Deine Antwort:** <span style='color:red'>{question['user_answer']}</span>
+                            - **Richtige Antwort:** <span style='color:green'>{question['correct_answer']}</span>
+                        """, unsafe_allow_html=True)
                  # Ergebnisse speichern
                 results = {
                     "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
