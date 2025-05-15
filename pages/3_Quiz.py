@@ -133,35 +133,32 @@ if "Fragen_Parasitologie_df" in st.session_state:
                                     - **Deine Antwort:** <span style='color:red'>{q['user_answer']}</span>  
                                     - **Richtige Antwort:** <span style='color:green'>{q['correct_answer']}</span>
                                 """, unsafe_allow_html=True)
+
+                        # --- Antworten speichern ---
+                        from datetime import datetime
+                        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        user = st.session_state.get("name", "Unbekannt")
+                        for i in range(total_questions):
+                            answer_data = st.session_state["user_answers"][i]
+                            record = {
+                                "timestamp": timestamp,
+                                "user": user,
+                                "question": answer_data["question"],
+                                "user_answer": answer_data["user_answer"],
+                                "correct_answer": answer_data["correct_answer"]
+                            }
+                            try:
+                                DataManager().append_record(
+                                    session_state_key="data_df",
+                                    record_dict=record
+                                )
+                            except Exception as e:
+                                st.error(f"Fehler beim Speichern der Antwort: {e}")
+                        st.success("Alle Antworten wurden gespeichert.")
                                     
 
-                 # Ergebnisse speichern
-                results = {
-                    "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                    "correct_count": correct_count,
-                    "incorrect_count": incorrect_count,
-                    "details": st.session_state["user_answers"]
-                }
+                                
 
-                try:
-                    # Initialisiere den Session State Key, falls nicht vorhanden
-                    if "user_results" not in st.session_state:
-                        st.session_state["user_results"] = []
-
-                    # Speichere die Ergebnisse in der Session State Liste
-                    st.session_state["user_results"].append(results)
-
-
-                    # Speichere die Ergebnisse mit DataManager
-                    DataManager().append_record(
-                        session_state_key="data_df",  # Session State Key für die Ergebnisse
-                        record_dict=results  # Die Ergebnisse als Dictionary
-                    )
-                    st.success("Ergebnisse wurden gespeichert.")
-                except Exception as e:
-                    st.error(f"Fehler beim Speichern der Ergebnisse: {e}")
                 
 
 
-else:
-    st.error("Der DataFrame konnte nicht geladen werden. Bitte überprüfe die Datenquelle.")

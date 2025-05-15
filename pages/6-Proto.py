@@ -111,24 +111,26 @@ if "Fragen_Parasitologie_df" in st.session_state:
                                 - **Richtige Antwort:** <span style='color:green'>{q['correct_answer']}</span>
                             """, unsafe_allow_html=True)
 
-                    results = {
-                        "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                        "correct_count": correct_count,
-                        "incorrect_count": incorrect_count,
-                        "details": st.session_state["user_answers"]
-                    }
-
-                    try:
-                        if "user_results" not in st.session_state:
-                            st.session_state["user_results"] = []
-                        st.session_state["user_results"].append(results)
-
-                        DataManager().append_record(
-                            session_state_key="data_df",
-                            record_dict=results
-                        )
-                        st.success("Ergebnisse wurden gespeichert.")
-                    except Exception as e:
-                        st.error(f"Fehler beim Speichern der Ergebnisse: {e}")
+                    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    user = st.session_state.get("name", "Unbekannt")
+                    for i in range(total_questions):
+                        answer_data = st.session_state["user_answers"].get(i)
+                        if not answer_data:
+                            continue
+                        record = {
+                            "timestamp": timestamp,
+                            "user": user,
+                            "question": answer_data["question"],
+                            "user_answer": answer_data["user_answer"],
+                            "correct_answer": answer_data["correct_answer"]
+                        }
+                        try:
+                            DataManager().append_record(
+                                session_state_key="data_df",
+                                record_dict=record
+                            )
+                        except Exception as e:
+                            st.error(f"Fehler beim Speichern der Antwort: {e}")
+                    st.success("Alle Antworten wurden gespeichert.")
 else:
     st.error("Der DataFrame konnte nicht geladen werden. Bitte überprüfe die Datenquelle.")

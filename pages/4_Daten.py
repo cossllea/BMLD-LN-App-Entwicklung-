@@ -1,9 +1,10 @@
+from utils.login_manager import LoginManager
+LoginManager().go_to_login('Start.py')  
+
 import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
 from utils.data_manager import DataManager
 
-st.title("Statistik")
+st.title('Antwort Übersicht')
 
 # Lade data_df, falls noch nicht vorhanden
 if "data_df" not in st.session_state:
@@ -13,18 +14,13 @@ if "data_df" not in st.session_state:
     )
 
 if "data_df" not in st.session_state or st.session_state["data_df"].empty:
-    st.info('Keine Daten vorhanden. Bitte löse das Quiz.')
+    st.info('Keine Daten vorhanden. Bitte lösen Sie das Quiz.')
 else:
     data_df = st.session_state["data_df"]
-    # Korrektur-Spalte berechnen
+    # Neue Spalte "korrekt" berechnen
     data_df["Korrektur"] = data_df["user_answer"] == data_df["correct_answer"]
     data_df["Korrektur"] = data_df["Korrektur"].map({True: "Richtig", False: "Falsch"})
-    # Zähle "Richtig" und "Falsch"
-    counts = data_df["Korrektur"].value_counts()
-    # Plot
-    fig, ax = plt.subplots()
-    counts.plot(kind='bar', color=['green', 'red'], ax=ax)
-    ax.set_ylabel("Anzahl")
-    ax.set_xlabel("Bewertung")
-    ax.set_title("Anzahl richtig/falsch beantworteter Fragen")
-    st.pyplot(fig)
+    st.dataframe(
+        data_df[["timestamp", "question", "user_answer", "correct_answer", "Korrektur"]],
+        use_container_width=True
+    )
