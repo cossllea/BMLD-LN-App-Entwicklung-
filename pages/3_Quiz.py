@@ -7,6 +7,8 @@ import random
 
 LoginManager().go_to_login('Start.py')
 
+quiz_mode = st.session_state.get("quiz_mode", "Unbekannt")
+
 data_manager = DataManager(fs_protocol="webdav", fs_root_folder="Quiz_LN_Informatik")
 data_manager.load_app_data(
     session_state_key="Fragen_Parasitologie_df",
@@ -18,12 +20,17 @@ st.title("10 zufällige Fragen")
 def start_quiz(df):
     for key in ["random_questions", "user_answers", "current_question_index"]:
         st.session_state.pop(key, None)
-
+    quiz_mode = st.session_state.get("quiz_mode", "Low Brain Power")
+    if quiz_mode == "A Little More Brain Power":
+        num_questions = 20
+        st.title("20 zufällige Fragen")
+    else:
+        num_questions = 10
+        st.title("10 zufällige Fragen")
     df = df.sample(frac=1).reset_index(drop=True)
-    question_list = df.drop_duplicates(subset="question").sample(
-        n=min(10, len(df)), random_state=None
+    question_list = df.sample(
+        n=min(num_questions, len(df)), random_state=None
     ).to_dict(orient="records")
-
     st.session_state["random_questions"] = question_list
     st.session_state["user_answers"] = {}
     st.session_state["current_question_index"] = 0
@@ -53,12 +60,12 @@ if "Fragen_Parasitologie_df" in st.session_state:
             key=answer_key
         )
 
-        if user_answer:
-            st.session_state["user_answers"][current_index] = {
-                "question": question["question"],
-                "correct_answer": question["correct_answer"],
-                "user_answer": user_answer
-            }
+        # Speichere die Antwort immer, auch wenn sie leer ist
+        st.session_state["user_answers"][current_index] = {
+            "question": question["question"],
+            "correct_answer": question["correct_answer"],
+            "user_answer": user_answer if user_answer else ""
+        }
 
         cols = st.columns(3)
         with cols[0]:
@@ -72,6 +79,13 @@ if "Fragen_Parasitologie_df" in st.session_state:
                     st.session_state["current_question_index"] += 1
             else:
                 if st.button("Auswertung anzeigen"):
+                    # Speichere die aktuelle Antwort auf die letzte Frage (nochmal redundant, aber sicher)
+                    st.session_state["user_answers"][current_index] = {
+                        "question": question["question"],
+                        "correct_answer": question["correct_answer"],
+                        "user_answer": user_answer if user_answer else ""
+                    }
+
                     correct_count = 0
                     incorrect_count = 0
                     incorrect_questions = []
@@ -101,21 +115,25 @@ if "Fragen_Parasitologie_df" in st.session_state:
                                 - **Richtige Antwort:** <span style='color:green'>{q['correct_answer']}</span>
                             """, unsafe_allow_html=True)
 
-                   # --- Antworten speichern ---
-                    from datetime import datetime
+                    # --- Antworten speichern ---
                     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     user = st.session_state.get("name", "Unbekannt")
                     for i in range(total_questions):
-                         # Nur speichern, wenn eine Antwort existiert!
+                         # Hole Antwort oder setze leeren Platzhalter, falls keine Antwort gegeben wurde
                         answer_data = st.session_state["user_answers"].get(i)
                         if not answer_data:
-                            continue
+                            answer_data = {
+                                "question": questions[i]["question"],
+                                "user_answer": "",
+                                "correct_answer": questions[i]["correct_answer"]
+                            }
                         record = {
                             "timestamp": timestamp,
                             "user": user,
                             "question": answer_data["question"],
                             "user_answer": answer_data["user_answer"],
-                            "correct_answer": answer_data["correct_answer"]
+                            "correct_answer": answer_data["correct_answer"],
+                            "quiz_mode": quiz_mode
                         }
                         try:
                             DataManager().append_record(

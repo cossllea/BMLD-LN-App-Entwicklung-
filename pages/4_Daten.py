@@ -17,10 +17,16 @@ if "data_df" not in st.session_state or st.session_state["data_df"].empty:
     st.info('Keine Daten vorhanden. Bitte lösen Sie das Quiz.')
 else:
     data_df = st.session_state["data_df"]
-    # Neue Spalte "korrekt" berechnen
-    data_df["Korrektur"] = data_df["user_answer"] == data_df["correct_answer"]
-    data_df["Korrektur"] = data_df["Korrektur"].map({True: "Richtig", False: "Falsch"})
-    st.dataframe(
-        data_df[["timestamp", "question", "user_answer", "correct_answer", "Korrektur"]],
-        use_container_width=True
-    )
+    # Nur Zeilen behalten, die echte Antworten sind
+    data_df = data_df.dropna(subset=["timestamp", "question", "user_answer", "correct_answer"], how="any")
+    if data_df.empty:
+        st.info('Noch keine Antworten im neuen Format vorhanden.')
+    else:
+        # Index einmalig zurücksetzen (nur für die Anzeige)
+        data_df = data_df.reset_index(drop=True)
+        data_df["Korrektur"] = data_df["user_answer"] == data_df["correct_answer"]
+        data_df["Korrektur"] = data_df["Korrektur"].map({True: "Richtig", False: "Falsch"})
+        st.dataframe(
+            data_df[["timestamp", "question", "user_answer", "correct_answer", "Korrektur"]],
+            use_container_width=True
+        )
