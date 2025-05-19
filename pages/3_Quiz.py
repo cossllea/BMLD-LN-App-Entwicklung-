@@ -18,7 +18,7 @@ data_manager.load_app_data(
 st.title("10 zufällige Fragen")
 
 def start_quiz(df):
-    for key in ["random_questions", "user_answers", "current_question_index"]:
+    for key in ["random_questions", "user_answers", "current_question_index", "results_saved"]:
         st.session_state.pop(key, None)
     quiz_mode = st.session_state.get("quiz_mode", "Low Brain Power")
     if quiz_mode == "A Little More Brain Power":
@@ -34,6 +34,7 @@ def start_quiz(df):
     st.session_state["random_questions"] = question_list
     st.session_state["user_answers"] = {}
     st.session_state["current_question_index"] = 0
+    st.session_state["results_saved"] = False  # <-- wichtig!
 
 if "Fragen_Parasitologie_df" in st.session_state:
     df = st.session_state["Fragen_Parasitologie_df"]
@@ -78,18 +79,19 @@ if "Fragen_Parasitologie_df" in st.session_state:
                 if st.button("Weiter →", key=f"next_{current_index}"):
                     st.session_state["current_question_index"] += 1
             else:
-                if st.button("Auswertung anzeigen"):
-                    # Speichere die aktuelle Antwort auf die letzte Frage (nochmal redundant, aber sicher)
-                    st.session_state["user_answers"][current_index] = {
-                        "question": question["question"],
-                        "correct_answer": question["correct_answer"],
-                        "user_answer": user_answer if user_answer else ""
-                    }
+                # Button nur anzeigen, wenn noch nicht gespeichert wurde!
+                if not st.session_state.get("results_saved", False):
+                    if st.button("Auswertung anzeigen"):
+                        st.session_state["show_results"] = True
 
+                # Auswertung und Anzeige, wenn show_results True ist
+                if st.session_state.get("show_results", False):
                     correct_count = 0
                     incorrect_count = 0
                     incorrect_questions = []
-
+                    
+                    # Sammle alle Antworten als String
+                    all_answers = []
                     for i in range(total_questions):
                         answer_data = st.session_state["user_answers"].get(i)
                         if not answer_data:
@@ -99,13 +101,17 @@ if "Fragen_Parasitologie_df" in st.session_state:
                         else:
                             incorrect_count += 1
                             incorrect_questions.append(answer_data)
-
+                        all_answers.append(
+                            f"Frage: {answer_data['question']} | Deine Antwort: {answer_data['user_answer']} | Richtig: {answer_data['correct_answer']}"
+                        )
+                
+                    # Ergebnisse anzeigen
                     with st.container():
                         st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
                         st.success(f"Richtige Antworten: {correct_count}")
                         st.error(f"Falsche Antworten: {incorrect_count}")
                         st.markdown("</div>", unsafe_allow_html=True)
-
+                
                     if incorrect_questions:
                         st.write("Falsch beantwortete Fragen:")
                         for q in incorrect_questions:
@@ -114,36 +120,28 @@ if "Fragen_Parasitologie_df" in st.session_state:
                                 - **Deine Antwort:** <span style='color:red'>{q['user_answer']}</span>  
                                 - **Richtige Antwort:** <span style='color:green'>{q['correct_answer']}</span>
                             """, unsafe_allow_html=True)
-
-                    # --- Antworten speichern ---
-                    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    user = st.session_state.get("name", "Unbekannt")
-                    quiz_mode = st.session_state.get("quiz_mode", "Low Brain Power")
-
-                    for idx, answer_data in st.session_state["user_answers"].items():
-                        # Falls answer_data None ist, verwende leere Werte
-                        if not answer_data:
-                            answer_data = {
-                                "question": f"Frage {idx}",
-                                "user_answer": "",
-                                "correct_answer": ""
-                            }
-
+                
+                    # --- Antworten als EINEN Datensatz speichern ---
+                    if not st.session_state.get("results_saved", False):
+                        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        user = st.session_state.get("name", "Unbekannt")
+                        # quiz_mode NICHT neu setzen, sondern direkt aus session_state holen!
                         record = {
-                            "timestamp": timestamp,  # Gleicher Timestamp für alle Antworten
+                            "timestamp": timestamp,
                             "user": user,
-                            "question": answer_data.get("question", ""),
-                            "user_answer": answer_data.get("user_answer", ""),
-                            "correct_answer": answer_data.get("correct_answer", ""),
-                            "quiz_mode": quiz_mode
+                            "quiz_mode": st.session_state.get("quiz_mode", "Low Brain Power"),
+                            "correct_count": correct_count,
+                            "incorrect_count": incorrect_count,
+                            "answers": " || ".join(all_answers)
                         }
-
                         try:
                             DataManager().append_record(
                                 session_state_key="data_df",
                                 record_dict=record
                             )
+                            st.success("Quiz-Daten wurden gespeichert.")
+                            st.session_state["results_saved"] = True
                         except Exception as e:
                             st.error(f"Fehler beim Speichern der Antwort: {e}")
-
+                                    # ...existing code...
                     st.success("Alle Antworten wurden gespeichert.")
