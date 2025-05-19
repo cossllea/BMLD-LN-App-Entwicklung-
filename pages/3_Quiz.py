@@ -118,23 +118,26 @@ if "Fragen_Parasitologie_df" in st.session_state:
                     # --- Antworten speichern ---
                     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     user = st.session_state.get("name", "Unbekannt")
-                    for i in range(total_questions):
-                         # Hole Antwort oder setze leeren Platzhalter, falls keine Antwort gegeben wurde
-                        answer_data = st.session_state["user_answers"].get(i)
+                    quiz_mode = st.session_state.get("quiz_mode", "Low Brain Power")
+
+                    for idx, answer_data in st.session_state["user_answers"].items():
+                        # Falls answer_data None ist, verwende leere Werte
                         if not answer_data:
                             answer_data = {
-                                "question": questions[i]["question"],
+                                "question": f"Frage {idx}",
                                 "user_answer": "",
-                                "correct_answer": questions[i]["correct_answer"]
+                                "correct_answer": ""
                             }
+
                         record = {
-                            "timestamp": timestamp,
+                            "timestamp": timestamp,  # Gleicher Timestamp für alle Antworten
                             "user": user,
-                            "question": answer_data["question"],
-                            "user_answer": answer_data["user_answer"],
-                            "correct_answer": answer_data["correct_answer"],
+                            "question": answer_data.get("question", ""),
+                            "user_answer": answer_data.get("user_answer", ""),
+                            "correct_answer": answer_data.get("correct_answer", ""),
                             "quiz_mode": quiz_mode
                         }
+
                         try:
                             DataManager().append_record(
                                 session_state_key="data_df",
@@ -142,4 +145,5 @@ if "Fragen_Parasitologie_df" in st.session_state:
                             )
                         except Exception as e:
                             st.error(f"Fehler beim Speichern der Antwort: {e}")
+
                     st.success("Alle Antworten wurden gespeichert.")
