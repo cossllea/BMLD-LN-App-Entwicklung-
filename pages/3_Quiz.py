@@ -15,7 +15,7 @@ data_manager.load_app_data(
     file_name="parasitologie_fragen.csv"
 )
 
-st.title("10 zufällige Fragen")
+st.title("Quiz")
 
 def start_quiz(df):
     for key in ["random_questions", "user_answers", "current_question_index", "results_saved"]:
