@@ -19,7 +19,12 @@ data_manager.load_user_data(
     initial_value=pd.DataFrame()
 )
 
-st.title("PathoLogic-Quiz")
+cols = st.columns([3, 1])
+with cols[0]:
+    st.title("PathoLogic-Quiz")
+with cols[1]:
+    st.image("https://drive.switch.ch/index.php/s/NQzo46BcGfLbd3Z/download", width=150)
+
 
 name = st.session_state.get('name')
 st.markdown(f"🦠  Hallo {name}! 🦠 ")

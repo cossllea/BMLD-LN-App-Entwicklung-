@@ -4,7 +4,11 @@ import pandas as pd
 import streamlit as st
 from utils.data_manager import DataManager
 
-st.title('Antwort Übersicht')
+cols = st.columns([3, 1])
+with cols[0]:
+    st.title("Antwort Übersicht")
+with cols[1]:
+    st.image("https://drive.switch.ch/index.php/s/NQzo46BcGfLbd3Z/download", width=150)
 
 # Lade data_df, falls noch nicht vorhanden
 if "data_df" not in st.session_state:

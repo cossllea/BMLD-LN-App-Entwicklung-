@@ -6,7 +6,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from utils.data_manager import DataManager
 
-st.title("Statistik")
+cols = st.columns([3, 1])
+with cols[0]:
+    st.title("Statistik")
+with cols[1]:
+    st.image("https://drive.switch.ch/index.php/s/NQzo46BcGfLbd3Z/download", width=150)
+
 
 # Lade data_df, falls noch nicht vorhanden
 if "data_df" not in st.session_state:
@@ -16,7 +21,7 @@ if "data_df" not in st.session_state:
     )
 
 if "data_df" not in st.session_state or st.session_state["data_df"].empty:
-    st.info('Keine Daten vorhanden. Bitte löse das Quiz.')
+    st.info('Keine Daten vorhanden. Bitte lösen Sie das Quiz.')
 else:
     data_df = st.session_state["data_df"]
 

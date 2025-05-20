@@ -15,7 +15,11 @@ data_manager.load_app_data(
     file_name="parasitologie_fragen.csv"
 )
 
-st.title("PathoLogic-Quiz")
+cols = st.columns([3, 1])
+with cols[0]:
+    st.title("PathoLogic-Quiz")
+with cols[1]:
+    st.image("https://drive.switch.ch/index.php/s/NQzo46BcGfLbd3Z/download", width=150)
 
 def start_quiz(df):
     for key in ["random_questions", "user_answers", "current_question_index", "results_saved"]:
