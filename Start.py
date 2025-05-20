@@ -21,7 +21,11 @@ data_manager.load_user_data(
     )
 
 
-st.title("Lernapp")
+cols = st.columns([3, 1])
+with cols[0]:
+    st.title("PathoLogic-Quiz")
+with cols[1]:
+    st.image("https://drive.switch.ch/index.php/f/8599875366", width=120)
 
 name = st.session_state.get('name')
  
@@ -39,5 +43,14 @@ Diese App wurde von folgenden Personen entwickelt:
 - Leah Cosslett (cossllea@students.zhaw.ch)
 
 """
-st.write("Navigiere über die Sidebar zu den verschiedenen Seiten der App.")
 
+st.markdown("**Anleitung:**")
+
+st.markdown('Wähle zuerst einen Quiz Modus aus. Der "Low Brain Power Mode" beinhaltet 10 Fragen, der "A Little More Brain Power Mode" enthält 20 Fragen. Um den ausgewählten Modus zu starten, klicke auf den "Quiz starten" Button.')
+st.markdown('Wenn du den Zurück-Button wählst, wird die Seite neu gestartet, du musst deine aktuelle Antwort also nochmals bestätigen.')
+st.markdown('Um deine Antworten zur Auswertung zu speichern, klicke auf den "Auswertung anzeigen" Button.')
+
+st.markdown("Jetzt weisst du alles was du wissen musst, um die App zu benutzen. Viel Spass beim Lernen!")
+
+if st.button("Zum Quiz-Modus auswählen"):
+    st.switch_page("pages/1_Quiz-Modus.py")

@@ -19,7 +19,7 @@ data_manager.load_user_data(
     initial_value=pd.DataFrame()
 )
 
-st.title("Lernapp")
+st.title("PathoLogic-Quiz")
 
 name = st.session_state.get('name')
 st.markdown(f"🦠  Hallo {name}! 🦠 ")
@@ -37,6 +37,4 @@ if st.button("Modus bestätigen"):
     st.switch_page("pages/3_Quiz.py")  # Passe ggf. den Pfad an!
 
 st.write(f"**Aktueller Modus:** {st.session_state.get('quiz_mode', 'Noch keiner gewählt')}")
-
-st.write("Navigiere über die Sidebar zu den verschiedenen Seiten der App.")
 

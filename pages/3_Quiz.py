@@ -15,7 +15,7 @@ data_manager.load_app_data(
     file_name="parasitologie_fragen.csv"
 )
 
-st.title("Quiz")
+st.title("PathoLogic-Quiz")
 
 def start_quiz(df):
     for key in ["random_questions", "user_answers", "current_question_index", "results_saved"]:
@@ -23,10 +23,10 @@ def start_quiz(df):
     quiz_mode = st.session_state.get("quiz_mode", "Low Brain Power")
     if quiz_mode == "A Little More Brain Power":
         num_questions = 20
-        st.title("20 zufällige Fragen")
+        st.title("A Little More Brain Power")
     else:
         num_questions = 10
-        st.title("10 zufällige Fragen")
+        st.title("Low Brain Power")
     df = df.sample(frac=1).reset_index(drop=True)
     question_list = df.sample(
         n=min(num_questions, len(df)), random_state=None
