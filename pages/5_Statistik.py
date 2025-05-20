@@ -48,3 +48,24 @@ else:
                 st.pyplot(fig)
                 st.write(f"Durchschnitt richtige Antworten: {df_mode['correct_count'].mean():.2f}")
                 st.write(f"Durchschnitt falsche Antworten: {df_mode['incorrect_count'].mean():.2f}")
+
+        # Verlauf der richtigen Antworten pro Durchlauf und Modus
+        st.subheader("Richtige Antworten pro Quiz-Durchlauf")
+        data_df = data_df.copy()
+        data_df = data_df.sort_values("timestamp")
+        data_df = data_df.reset_index(drop=True)
+        data_df["Durchlauf"] = data_df.index + 1  # Startet bei 1
+
+        fig, ax = plt.subplots()
+        # Low Brain Power: blau, verbunden
+        df_low = data_df[data_df["quiz_mode"] == "Low Brain Power"]
+        ax.plot(df_low["Durchlauf"], df_low["correct_count"], color="blue", marker="o", label="Low Brain Power")
+        # A Little More Brain Power: pink, verbunden
+        df_more = data_df[data_df["quiz_mode"] == "A Little More Brain Power"]
+        ax.plot(df_more["Durchlauf"], df_more["correct_count"], color="hotpink", marker="o", label="A Little More Brain Power")
+
+        ax.set_xlabel("Quiz-Durchlauf")
+        ax.set_ylabel("Richtige Antworten")
+        ax.legend()
+        ax.grid(True)
+        st.pyplot(fig)
