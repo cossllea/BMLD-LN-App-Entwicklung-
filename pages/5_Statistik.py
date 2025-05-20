@@ -69,3 +69,5 @@ else:
         ax.legend()
         ax.grid(True)
         st.pyplot(fig)
+
+### In Statistik pink gestrichelt und blau gestrichelt Durchschnitt anzeigen
