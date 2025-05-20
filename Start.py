@@ -25,7 +25,7 @@ cols = st.columns([3, 1])
 with cols[0]:
     st.title("PathoLogic-Quiz")
 with cols[1]:
-    st.image("https://drive.switch.ch/index.php/f/8599875366", width=120)
+    st.image("https://drive.switch.ch/index.php/s/NQzo46BcGfLbd3Z/download", width=150)
 
 name = st.session_state.get('name')
  
@@ -35,7 +35,7 @@ st.markdown(f"🦠  Hallo {name}! 🦠 ")
 
 # Streamlit über den Text unten direkt in die App - cool!
 """
-In dieser Lernapp werden 10 Single-Choice Fragen zum Thema Parasitologie aus dem Modul Medizinische Mikrobiologie 2 in Form eines Quizzes gestellt!
+In dieser Lernapp werden Single-Choice Fragen zum Thema Parasitologie aus dem Modul Medizinische Mikrobiologie 2 in Form eines Quizzes gestellt!
 
 Diese App wurde von folgenden Personen entwickelt:
 - Lisa Pianezzi (pianelis@students.zhaw.ch)
