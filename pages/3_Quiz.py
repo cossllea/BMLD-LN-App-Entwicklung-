@@ -21,6 +21,8 @@ with cols[0]:
 with cols[1]:
     st.image("https://drive.switch.ch/index.php/s/NQzo46BcGfLbd3Z/download", width=150)
 
+
+st.markdown('Bestätige deine Antwort mit einem Doppelklick auf "Weiter".')
 def start_quiz(df):
     for key in ["random_questions", "user_answers", "current_question_index", "results_saved"]:
         st.session_state.pop(key, None)
@@ -149,3 +151,14 @@ if "Fragen_Parasitologie_df" in st.session_state:
                             st.error(f"Fehler beim Speichern der Antwort: {e}")
                                     # ...existing code...
                     st.success("Alle Antworten wurden gespeichert.")
+
+
+                    # Zwei Buttons nebeneinander für die Navigation
+                    button_cols = st.columns(2)
+                    with button_cols[0]:
+                        if st.button("zur Antwort Übersicht"):
+                            st.switch_page("pages/4_Antwort Übersicht.py")
+
+                    with button_cols[1]:
+                        if st.button("zur Statistik"):
+                            st.switch_page("pages/5_Statistik.py") 

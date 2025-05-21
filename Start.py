@@ -47,7 +47,7 @@ Diese App wurde von folgenden Personen entwickelt:
 st.markdown("**Anleitung:**")
 
 st.markdown('Wähle zuerst einen Quiz Modus aus. Der "Low Brain Power Mode" beinhaltet 10 Fragen, der "A Little More Brain Power Mode" enthält 20 Fragen. Um den ausgewählten Modus zu starten, klicke auf den "Quiz starten" Button.')
-st.markdown('Wenn du den Zurück-Button wählst, wird die Seite neu gestartet, du musst deine aktuelle Antwort also nochmals bestätigen.')
+st.markdown('Wenn du den Zurück-Button wählst, wird die Seite neu gestartet, du musst deine aktuelle Antwort also nochmals bestätigen. Du kannst eine Antwort mit einem Doppelklick auf "Weiter" bestätigen.')
 st.markdown('Um deine Antworten zur Auswertung zu speichern, klicke auf den "Auswertung anzeigen" Button.')
 
 st.markdown("Jetzt weisst du alles was du wissen musst, um die App zu benutzen. Viel Spass beim Lernen!")

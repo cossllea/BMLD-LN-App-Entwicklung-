@@ -49,25 +49,32 @@ else:
                 st.write(f"Durchschnitt richtige Antworten: {df_mode['correct_count'].mean():.2f}")
                 st.write(f"Durchschnitt falsche Antworten: {df_mode['incorrect_count'].mean():.2f}")
 
-        # Verlauf der richtigen Antworten pro Durchlauf und Modus
-        st.subheader("Richtige Antworten pro Quiz-Durchlauf")
-        data_df = data_df.copy()
-        data_df = data_df.sort_values("timestamp")
-        data_df = data_df.reset_index(drop=True)
-        data_df["Durchlauf"] = data_df.index + 1  # Startet bei 1
+       # Verlauf der richtigen Antworten pro Durchlauf und Modus
+st.subheader("Richtige Antworten pro Quiz-Durchlauf")
+data_df = data_df.copy()
+data_df["timestamp"] = pd.to_datetime(data_df["timestamp"], errors="coerce")
+data_df = data_df.sort_values("timestamp")
+data_df = data_df.reset_index(drop=True)
+data_df["Durchlauf"] = data_df.index + 1  # Startet bei 1
 
-        fig, ax = plt.subplots()
-        # Low Brain Power: blau, verbunden
-        df_low = data_df[data_df["quiz_mode"] == "Low Brain Power"]
-        ax.plot(df_low["Durchlauf"], df_low["correct_count"], color="blue", marker="o", label="Low Brain Power")
-        # A Little More Brain Power: pink, verbunden
-        df_more = data_df[data_df["quiz_mode"] == "A Little More Brain Power"]
-        ax.plot(df_more["Durchlauf"], df_more["correct_count"], color="hotpink", marker="o", label="A Little More Brain Power")
+fig, ax = plt.subplots()
 
-        ax.set_xlabel("Quiz-Durchlauf")
-        ax.set_ylabel("Richtige Antworten")
-        ax.legend()
-        ax.grid(True)
-        st.pyplot(fig)
+# Low Brain Power: blau, verbunden
+df_low = data_df[data_df["quiz_mode"] == "Low Brain Power"]
+line1 = ax.plot(df_low["Durchlauf"], df_low["correct_count"], color="blue", marker="o", label="Low Brain Power")
+if not df_low.empty:
+    mean_low = df_low["correct_count"].mean()
+    line2 = ax.axhline(mean_low, color="blue", linestyle="--", linewidth=2, label="Low Brain Power Durchschnitt")
 
-### In Statistik pink gestrichelt und blau gestrichelt Durchschnitt anzeigen
+# A Little More Brain Power: pink, verbunden
+df_more = data_df[data_df["quiz_mode"] == "A Little More Brain Power"]
+line3 = ax.plot(df_more["Durchlauf"], df_more["correct_count"], color="hotpink", marker="o", label="A Little More Brain Power")
+if not df_more.empty:
+    mean_more = df_more["correct_count"].mean()
+    line4 = ax.axhline(mean_more, color="hotpink", linestyle="--", linewidth=2, label="A Little More Brain Power Durchschnitt")
+
+ax.set_xlabel("Quiz-Durchlauf")
+ax.set_ylabel("Richtige Antworten")
+ax.grid(True)
+ax.legend(loc="center left", bbox_to_anchor=(1, 0.5))  # Legende außerhalb
+st.pyplot(fig)
