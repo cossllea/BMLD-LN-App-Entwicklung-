@@ -65,12 +65,11 @@ Die Hypothese hat sich bestätigt. Die Testperson konnte die App zielsicher navi
 •	Was war schlecht?
 
 - Es wäre einfacher, einen Button für den Seitenwechsel zwischen Antwort Übersicht und Statistik nach der Antworten Übersicht zu plazieren. Es geht zwar auch über die Sidebar, so ist es aber intuitiver.
+
 •	Neue Ideen
 
 - Button um zur Statistik zu kommen, auf der Antworten Übersicht
 
-•	Neue Probleme?
-    
 
 
 
