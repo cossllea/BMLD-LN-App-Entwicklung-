@@ -52,5 +52,8 @@ st.markdown('Um deine Antworten zur Auswertung zu speichern, klicke auf den "Aus
 
 st.markdown("Jetzt weisst du alles was du wissen musst, um die App zu benutzen. Viel Spass beim Lernen!")
 
+st.markdown("**Kurzanleitung als Video:**")
+st.video("https://drive.switch.ch/index.php/s/sh5XGbfkocwWBcf/download")
+
 if st.button("Zum Quiz-Modus auswählen"):
     st.switch_page("pages/1_Quiz-Modus.py")

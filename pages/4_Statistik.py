@@ -78,3 +78,6 @@ ax.set_ylabel("Richtige Antworten")
 ax.grid(True)
 ax.legend(loc="center left", bbox_to_anchor=(1, 0.5))  # Legende außerhalb
 st.pyplot(fig)
+
+if st.button("zur Antwort Übersicht"):
+    st.switch_page("pages/3_Antwort Übersicht.py")

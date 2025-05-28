@@ -36,3 +36,7 @@ else:
             # Index entfernen
             qa_df = qa_df.reset_index(drop=True)
             st.dataframe(qa_df, use_container_width=True, hide_index=True)
+        
+
+if st.button("Zur Statistik"):
+    st.switch_page("pages/4_Statistik.py")

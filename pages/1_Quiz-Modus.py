@@ -39,7 +39,7 @@ quiz_mode_select = st.radio(
 if st.button("Modus bestätigen"):
     st.session_state["quiz_mode"] = quiz_mode_select
     st.success(f"Modus '{quiz_mode_select}' gewählt! Du wirst zum Quiz weitergeleitet.")
-    st.switch_page("pages/3_Quiz.py")  # Passe ggf. den Pfad an!
+    st.switch_page("pages/2_Quiz.py")  # Passe ggf. den Pfad an!
 
 st.write(f"**Aktueller Modus:** {st.session_state.get('quiz_mode', 'Noch keiner gewählt')}")
 

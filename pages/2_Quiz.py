@@ -157,8 +157,8 @@ if "Fragen_Parasitologie_df" in st.session_state:
                     button_cols = st.columns(2)
                     with button_cols[0]:
                         if st.button("zur Antwort Übersicht"):
-                            st.switch_page("pages/4_Antwort Übersicht.py")
+                            st.switch_page("pages/3_Antwort Übersicht.py")
 
                     with button_cols[1]:
                         if st.button("zur Statistik"):
-                            st.switch_page("pages/5_Statistik.py") 
+                            st.switch_page("pages/4_Statistik.py") 
