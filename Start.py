@@ -31,19 +31,6 @@ name = st.session_state.get('name')
  
 st.markdown(f"🦠  Hallo {name}! 🦠 ")
 
-# !! WICHTIG: Eure Emails müssen in der App erscheinen!!
-
-# Streamlit über den Text unten direkt in die App - cool!
-"""
-In dieser Lernapp werden Single-Choice Fragen zum Thema Parasitologie aus dem Modul Medizinische Mikrobiologie 2 in Form eines Quizzes gestellt!
-
-Diese App wurde von folgenden Personen entwickelt:
-- Lisa Pianezzi (pianelis@students.zhaw.ch)
-- Michelle Weder (wedermic@students.zhaw.ch)
-- Leah Cosslett (cossllea@students.zhaw.ch)
-
-"""
-
 st.markdown("**Anleitung:**")
 
 st.markdown('Wähle zuerst einen Quiz Modus aus. Der "Low Brain Power Mode" beinhaltet 10 Fragen, der "A Little More Brain Power Mode" enthält 20 Fragen. Um den ausgewählten Modus zu starten, klicke auf den "Quiz starten" Button.')
@@ -57,3 +44,15 @@ st.video("https://drive.switch.ch/index.php/s/sh5XGbfkocwWBcf/download")
 
 if st.button("Zum Quiz-Modus auswählen"):
     st.switch_page("pages/1_Quiz-Modus.py")
+
+st.markdown(
+    """
+    <div style='font-size:16px; color:#888; margin-top:40px; text-align:center;'>
+        Diese App wurde von folgenden Personen entwickelt:<br>
+        Lisa Pianezzi (<a href="mailto:pianelis@students.zhaw.ch">pianelis@students.zhaw.ch</a>)<br>
+        Michelle Weder (<a href="mailto:wedermic@students.zhaw.ch">wedermic@students.zhaw.ch</a>)<br>
+        Leah Cosslett (<a href="mailto:cossllea@students.zhaw.ch">cossllea@students.zhaw.ch</a>)
+    </div>
+    """,
+    unsafe_allow_html=True
+)
