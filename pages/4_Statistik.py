@@ -20,6 +20,29 @@ if "data_df" not in st.session_state:
         file_name='data.csv'
     )
 
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background-image: url("https://drive.switch.ch/index.php/s/ZbkH4TCqVX6LLOZ/download");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    /* Overlay für bessere Lesbarkeit */
+    .block-container {
+        background: rgba(255, 255, 255, 0.85);
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 if "data_df" not in st.session_state or st.session_state["data_df"].empty:
     st.info('Keine Daten vorhanden. Bitte lösen Sie das Quiz.')
 else:

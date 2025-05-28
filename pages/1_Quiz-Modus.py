@@ -19,6 +19,29 @@ data_manager.load_user_data(
     initial_value=pd.DataFrame()
 )
 
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background-image: url("https://drive.switch.ch/index.php/s/ZbkH4TCqVX6LLOZ/download");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    /* Overlay für bessere Lesbarkeit */
+    .block-container {
+        background: rgba(255, 255, 255, 0.85);
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 cols = st.columns([3, 1])
 with cols[0]:
     st.title("PathoLogic-Quiz")

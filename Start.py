@@ -9,6 +9,29 @@ data_manager = DataManager(fs_protocol= "webdav", fs_root_folder="Quiz_LN_Inform
 login_manager = LoginManager(data_manager)
 login_manager.login_register()  # open login/register page
 
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background-image: url("https://drive.switch.ch/index.php/s/ZbkH4TCqVX6LLOZ/download");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    /* Overlay für bessere Lesbarkeit */
+    .block-container {
+        background: rgba(255, 255, 255, 0.85);
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 data_manager.load_app_data(
     session_state_key= "Fragen_Parasitologie_df",
     file_name = "parasitologie_fragen.csv")
