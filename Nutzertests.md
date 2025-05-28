@@ -1,11 +1,13 @@
-##  Hypothese:
+## Nutzertest 1
+
+###  Hypothese:
 
 Unsere Zielperson ist imstande, unsere App ohne weitere Anleitungen zu navigieren.
     
 Die Hypothese hat sich bestätigt: Die Testperson konnte die App ohne Unterstützung navigieren und wünschte auch keine weiteren Erläuterungen.
 Es muss also keine Anleitung geschrieben werden.
 
-##  Protokoll:
+###  Protokoll:
 
 Testperson: Alessia Frozzi, Studentin aus unserem Studiengang
 
@@ -18,7 +20,7 @@ Notizen:
 - schneller Modus / komplizierter Modus
 - Buttonposition macht Sinn
 
-##  Testraster Beurteilung:
+###  Testraster Beurteilung:
 
 •   Was war gut?
 
@@ -43,6 +45,33 @@ Notizen:
 - Darstellung der Person, die die Frage stellt, überarbeiten, da die Schrift auf dem Handy sonst zu klein wäre  Entweder fragende Person weglassen oder oben neben der Frage nur den Kopf, Antwortmöglichkeiten darunter
 
     
+## Nutzertest 2
+
+### Hypothese:
+
+Studierende unseres Studienganges sind imstande die App auf dem Handy fürs Lernen zu verwenden
+
+Die Hypothese hat sich bestätigt. Die Testperson konnte die App zielsicher navigieren und konnte aufgrund der Auswertung und Statistik gemachte Fehler erkennen und (idealerweise) für die Prüfung daraus lernen.
+
+### Testraster Beurteilung:
+
+•   Was war gut?
+
+- Das Logo ist positiv aufgefallen
+- Erklärung am Anfang war hilfreich, vor allem der Hinweis, dass man zweimal auf Weiter klicken muss um die Antwort einzugeben
+- Die Statisik inkl. Antworten Übersicht ist übersichtlich, auch wenn man das Quiz mehrmals löst, da die "Antwortenliste" komprimierbar und nach Versuch "aufklappbar" ist.
+- Die Unterscheidung der beiden Modi auf der "Richtigen Antwort Statistik" mit Farben ist sehr hilfreich. Auch der gestrichelte Durchschnitt ist interessant.
+
+•	Was war schlecht?
+
+- Es wäre einfacher, einen Button für den Seitenwechsel zwischen Antwort Übersicht und Statistik nach der Antworten Übersicht zu plazieren. Es geht zwar auch über die Sidebar, so ist es aber intuitiver.
+•	Neue Ideen
+
+- Button um zur Statistik zu kommen, auf der Antworten Übersicht
+
+•	Neue Probleme?
+    
+
 
 
 
