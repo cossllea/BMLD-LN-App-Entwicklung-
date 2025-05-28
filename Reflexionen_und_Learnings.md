@@ -50,6 +50,7 @@ Wir haben auch herausgefunden, dass wir die Bilder, die wir in unsere Fragen ein
 
 Bis jetzt haben wir noch keine spezifischen Fragen, es werden aber sicher noch welche aufkommen:)
 
+
 ## Schlussreflektion
 
 Nach viel Schweiss und Tränen sind wir nun am Ende unserer Programmier-Reise. Dieser Leistungsnachweis hat uns, wohl oder übel, viel über Geduld und genaues Arbeiten beigebracht. Und obwohl nicht alles immer nach Plan gelaufen ist, sind wir glücklich und stolz auf unsere nun funktionierende App.
