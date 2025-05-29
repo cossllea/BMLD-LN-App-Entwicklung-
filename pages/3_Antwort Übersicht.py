@@ -1,22 +1,26 @@
-from utils.login_manager import LoginManager
-LoginManager().go_to_login('Start.py')  
+from utils.login_manager import LoginManager  
 import pandas as pd
 import streamlit as st
 from utils.data_manager import DataManager
 
+# ---verweise den Benutzer zur Login-Seite, falls nicht eingeloggt---
+LoginManager().go_to_login('Start.py')
+
+# ---Titel und Logo---
 cols = st.columns([3, 1])
 with cols[0]:
     st.title("Antwort Übersicht")
 with cols[1]:
     st.image("https://drive.switch.ch/index.php/s/NQzo46BcGfLbd3Z/download", width=150)
 
-# Lade data_df, falls noch nicht vorhanden
+# ---prüft, ob data_df im Session-State vorhanden ist, wenn nicht, ladet es---
 if "data_df" not in st.session_state:
     DataManager().load_user_data(
         session_state_key='data_df',
         file_name='data.csv'
     )
 
+# ---Hintergrundbild mit Overlay---
 st.markdown(
     """
     <style>
@@ -40,10 +44,13 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# ---Überprüfe, ob data_df leer ist---
 if "data_df" not in st.session_state or st.session_state["data_df"].empty:
     st.info('Keine Daten vorhanden. Bitte lösen Sie das Quiz.')
 else:
     data_df = st.session_state["data_df"]
+    
+    # ---Wenn Daten vorhanden sind, zeigt die Übersicht an---
     for idx, row in data_df.iterrows():
         with st.expander(f"{row['timestamp']} | {row['user']} | {row['quiz_mode']} | Richtig: {row['correct_count']} | Falsch: {row['incorrect_count']}"):
             # Antworten in DataFrame umwandeln
@@ -59,6 +66,6 @@ else:
             qa_df = qa_df.reset_index(drop=True)
             st.dataframe(qa_df, use_container_width=True, hide_index=True)
         
-
+# ---Button für die Navigation zur Statistik---
 if st.button("Zur Statistik"):
     st.switch_page("pages/4_Statistik.py")

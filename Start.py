@@ -4,11 +4,14 @@ import io
 from utils.data_manager import DataManager
 from utils.login_manager import LoginManager
 
+# ---Initialisiere den DataManager---
 data_manager = DataManager(fs_protocol= "webdav", fs_root_folder="Quiz_LN_Informatik")
 
+# ---Initialisiere den LoginManager---
 login_manager = LoginManager(data_manager)
-login_manager.login_register()  # open login/register page
+login_manager.login_register() 
 
+# ---Hintergrundbild mit Overlay---
 st.markdown(
     """
     <style>
@@ -32,10 +35,12 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# ---Lade die Fragen für das Quiz---
 data_manager.load_app_data(
     session_state_key= "Fragen_Parasitologie_df",
     file_name = "parasitologie_fragen.csv")
 
+# ---Lade die Benutzerdaten---
 data_manager.load_user_data(
     session_state_key='data_df', 
     file_name='data.csv', 
@@ -43,17 +48,18 @@ data_manager.load_user_data(
     parse_dates = ['timestamp']
     )
 
-
+# ---Titel und Logo---
 cols = st.columns([3, 1])
 with cols[0]:
     st.title("PathoLogic-Quiz")
 with cols[1]:
     st.image("https://drive.switch.ch/index.php/s/NQzo46BcGfLbd3Z/download", width=150)
 
-name = st.session_state.get('name')
- 
+# ---Begrüssung---
+name = st.session_state.get('name') 
 st.markdown(f"🦠  Hallo {name}! 🦠 ")
 
+# ---Anleitung---
 st.markdown("**Anleitung:**")
 
 st.markdown('Wähle zuerst einen Quiz Modus aus. Der "Low Brain Power Mode" beinhaltet 10 Fragen, der "A Little More Brain Power Mode" enthält 20 Fragen. Um den ausgewählten Modus zu starten, klicke auf den "Quiz starten" Button.')
@@ -65,9 +71,11 @@ st.markdown("Jetzt weisst du alles was du wissen musst, um die App zu benutzen. 
 st.markdown("**Kurzanleitung als Video:**")
 st.video("https://drive.switch.ch/index.php/s/sh5XGbfkocwWBcf/download")
 
+# ---Button zur Quiz-Modus Unterseite---
 if st.button("Zum Quiz-Modus auswählen"):
     st.switch_page("pages/1_Quiz-Modus.py")
 
+# ---Footer mit Entwicklerinformationen---
 st.markdown(
     """
     <div style='font-size:16px; color:#888; margin-top:40px; text-align:center;'>

@@ -1,11 +1,13 @@
 from utils.login_manager import LoginManager
-LoginManager().go_to_login('Start.py') 
-
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from utils.data_manager import DataManager
 
+# ---verweise den Benutzer zur Login-Seite, falls nicht eingeloggt---
+LoginManager().go_to_login('Start.py')
+
+# ---Titel und Logo---
 cols = st.columns([3, 1])
 with cols[0]:
     st.title("Statistik")
@@ -13,13 +15,14 @@ with cols[1]:
     st.image("https://drive.switch.ch/index.php/s/NQzo46BcGfLbd3Z/download", width=150)
 
 
-# Lade data_df, falls noch nicht vorhanden
+# ---prüft, ob data_df im Session-State vorhanden ist, wenn nicht, ladet es---
 if "data_df" not in st.session_state:
     DataManager().load_user_data(
         session_state_key='data_df',
         file_name='data.csv'
     )
 
+# ---Hintergrundbild mit Overlay---
 st.markdown(
     """
     <style>
@@ -43,11 +46,13 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# ---Überprüfe, ob data_df leer ist---
 if "data_df" not in st.session_state or st.session_state["data_df"].empty:
     st.info('Keine Daten vorhanden. Bitte lösen Sie das Quiz.')
 else:
     data_df = st.session_state["data_df"]
 
+    # ---Anzahl Richtige und Falsche in % pro Modus + Durschschnttswerte---
     if "quiz_mode" not in data_df.columns:
         st.warning("Es gibt keine Spalte 'quiz_mode' in den Daten. Bitte ergänze diese beim Speichern der Antworten!")
     else:
@@ -72,24 +77,23 @@ else:
                 st.write(f"Durchschnitt richtige Antworten: {df_mode['correct_count'].mean():.2f}")
                 st.write(f"Durchschnitt falsche Antworten: {df_mode['incorrect_count'].mean():.2f}")
 
-       # Verlauf der richtigen Antworten pro Durchlauf und Modus
+# ---Daten für die Grafik vorbereiten---
 st.subheader("Richtige Antworten pro Quiz-Durchlauf")
 data_df = data_df.copy()
 data_df["timestamp"] = pd.to_datetime(data_df["timestamp"], errors="coerce")
 data_df = data_df.sort_values("timestamp")
 data_df = data_df.reset_index(drop=True)
-data_df["Durchlauf"] = data_df.index + 1  # Startet bei 1
+data_df["Durchlauf"] = data_df.index + 1  
 
 fig, ax = plt.subplots()
 
-# Low Brain Power: blau, verbunden
+# --- Grafik verlauf Anzahl Richtige Antworten pro Quiz-Durchlauf für jeden Modus---
 df_low = data_df[data_df["quiz_mode"] == "Low Brain Power"]
 line1 = ax.plot(df_low["Durchlauf"], df_low["correct_count"], color="blue", marker="o", label="Low Brain Power")
 if not df_low.empty:
     mean_low = df_low["correct_count"].mean()
     line2 = ax.axhline(mean_low, color="blue", linestyle="--", linewidth=2, label="Low Brain Power Durchschnitt")
 
-# A Little More Brain Power: pink, verbunden
 df_more = data_df[data_df["quiz_mode"] == "A Little More Brain Power"]
 line3 = ax.plot(df_more["Durchlauf"], df_more["correct_count"], color="hotpink", marker="o", label="A Little More Brain Power")
 if not df_more.empty:
@@ -99,8 +103,9 @@ if not df_more.empty:
 ax.set_xlabel("Quiz-Durchlauf")
 ax.set_ylabel("Richtige Antworten")
 ax.grid(True)
-ax.legend(loc="center left", bbox_to_anchor=(1, 0.5))  # Legende außerhalb
+ax.legend(loc="center left", bbox_to_anchor=(1, 0.5))  
 st.pyplot(fig)
 
+# ---Button für die Navigation zur Antwort Übersicht---
 if st.button("zur Antwort Übersicht"):
     st.switch_page("pages/3_Antwort Übersicht.py")

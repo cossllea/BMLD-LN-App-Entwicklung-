@@ -5,16 +5,22 @@ from utils.data_manager import DataManager
 from utils.login_manager import LoginManager
 import random
 
+# ---Initialisiere den DataManager---
+data_manager = DataManager(fs_protocol="webdav", fs_root_folder="Quiz_LN_Informatik")
+
+# ---Verweise den Benutzer zur Login-Seite, falls nicht eingeloggt---
 LoginManager().go_to_login('Start.py')
 
-quiz_mode = st.session_state.get("quiz_mode", "Unbekannt")
-
-data_manager = DataManager(fs_protocol="webdav", fs_root_folder="Quiz_LN_Informatik")
+# ---Lade die Quizfragen--- 
 data_manager.load_app_data(
     session_state_key="Fragen_Parasitologie_df",
     file_name="parasitologie_fragen.csv"
 )
 
+# ---Quiz-Modus wird ausgelesen---
+quiz_mode = st.session_state.get("quiz_mode", "Unbekannt")
+
+# ---Hintergrundbild mit Overlay---
 st.markdown(
     """
     <style>
@@ -38,14 +44,17 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# ---Titel und Logo---
 cols = st.columns([3, 1])
 with cols[0]:
     st.title("PathoLogic-Quiz")
 with cols[1]:
     st.image("https://drive.switch.ch/index.php/s/NQzo46BcGfLbd3Z/download", width=150)
 
-
+# ---Hinweis für den Nutzer---
 st.markdown('Bestätige deine Antwort mit einem Doppelklick auf "Weiter".')
+
+# ---Quiz-start Funktion (je nach Modus 10 oder 20 Fragen)---
 def start_quiz(df):
     for key in ["random_questions", "user_answers", "current_question_index", "results_saved"]:
         st.session_state.pop(key, None)
@@ -63,14 +72,17 @@ def start_quiz(df):
     st.session_state["random_questions"] = question_list
     st.session_state["user_answers"] = {}
     st.session_state["current_question_index"] = 0
-    st.session_state["results_saved"] = False  # <-- wichtig!
+    st.session_state["results_saved"] = False  
 
+# ---prüfen ob Fragen bereits im Session State gespeichert wurden---
 if "Fragen_Parasitologie_df" in st.session_state:
     df = st.session_state["Fragen_Parasitologie_df"]
 
+    # ---Button zum Starten des Quiz je nach Modus---
     if st.button("Quiz starten"):
         start_quiz(df)
-
+    
+    # ---zeigt die Fragen und Antwortmöglichkeiten & speichert die Antworten des Nutzers---
     if "random_questions" in st.session_state:
         questions = st.session_state["random_questions"]
         total_questions = len(questions)
@@ -89,14 +101,13 @@ if "Fragen_Parasitologie_df" in st.session_state:
             options=[question['answer_a'], question['answer_b'], question['answer_c'], question['answer_d']],
             key=answer_key
         )
-
-        # Speichere die Antwort immer, auch wenn sie leer ist
         st.session_state["user_answers"][current_index] = {
             "question": question["question"],
             "correct_answer": question["correct_answer"],
             "user_answer": user_answer if user_answer else ""
         }
 
+        # ---Buttons zur Navigation zwischen Fragen---
         cols = st.columns(3)
         with cols[0]:
             if current_index > 0:
@@ -108,18 +119,17 @@ if "Fragen_Parasitologie_df" in st.session_state:
                 if st.button("Weiter →", key=f"next_{current_index}"):
                     st.session_state["current_question_index"] += 1
             else:
-                # Button nur anzeigen, wenn noch nicht gespeichert wurde!
                 if not st.session_state.get("results_saved", False):
                     if st.button("Auswertung anzeigen"):
                         st.session_state["show_results"] = True
 
-                # Auswertung und Anzeige, wenn show_results True ist
+                # ---Auswertung ---
                 if st.session_state.get("show_results", False):
                     correct_count = 0
                     incorrect_count = 0
                     incorrect_questions = []
                     
-                    # Sammle alle Antworten als String
+                    # ---Sammle alle Antworten---
                     all_answers = []
                     for i in range(total_questions):
                         answer_data = st.session_state["user_answers"].get(i)
@@ -134,13 +144,14 @@ if "Fragen_Parasitologie_df" in st.session_state:
                             f"Frage: {answer_data['question']} | Deine Antwort: {answer_data['user_answer']} | Richtig: {answer_data['correct_answer']}"
                         )
                 
-                    # Ergebnisse anzeigen
+                    # ---Ergebnisse anzeigen---
                     with st.container():
                         st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
                         st.success(f"Richtige Antworten: {correct_count}")
                         st.error(f"Falsche Antworten: {incorrect_count}")
                         st.markdown("</div>", unsafe_allow_html=True)
-                
+
+                    # ---Falsch beantwortete Fragen anzeigen---
                     if incorrect_questions:
                         st.write("Falsch beantwortete Fragen:")
                         for q in incorrect_questions:
@@ -150,11 +161,10 @@ if "Fragen_Parasitologie_df" in st.session_state:
                                 - **Richtige Antwort:** <span style='color:green'>{q['correct_answer']}</span>
                             """, unsafe_allow_html=True)
                 
-                    # --- Antworten als EINEN Datensatz speichern ---
+                    # --- Antworten speichern ---
                     if not st.session_state.get("results_saved", False):
                         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                         user = st.session_state.get("name", "Unbekannt")
-                        # quiz_mode NICHT neu setzen, sondern direkt aus session_state holen!
                         record = {
                             "timestamp": timestamp,
                             "user": user,
@@ -172,11 +182,10 @@ if "Fragen_Parasitologie_df" in st.session_state:
                             st.session_state["results_saved"] = True
                         except Exception as e:
                             st.error(f"Fehler beim Speichern der Antwort: {e}")
-                                    # ...existing code...
                     st.success("Alle Antworten wurden gespeichert.")
 
 
-                    # Zwei Buttons nebeneinander für die Navigation
+                    # ---Navigation nach dem Quiz---
                     button_cols = st.columns(2)
                     with button_cols[0]:
                         if st.button("zur Antwort Übersicht"):
